@@ -15,10 +15,26 @@ The reader is a hiring manager skimming 300 resumes, then a technical interviewe
 - Max 2 pages. Page 2 must be worth reading, or cut to 1.
 - Order jobs newest first. Inside a job, the project most relevant to this job goes first.
 - Max 4 bullets per project, max 2 lines (~230 chars) per bullet. Drop projects that don't help this application.
+- Bullets start with a past-tense verb, even for the current job ("Built", not "Building" or "I built"). No "responsible for", "worked on", "helped with": say what you did.
 - Bullet = what you built + the concrete mechanism (tool, technique) + the result if a real one exists. Don't bolt a vague result on the end ("..., improving reliability").
 - Mirror the job's wording where it's honestly the same thing (they say "observability", you did Prometheus/Grafana: use their word).
 - Skills: only what appears in `info.json` and matters for this job. Keep the level markers ("primary", "basic").
-- No summary/objective section.
+- No summary/objective paragraph. One `\headline` line under the name is allowed: the job's exact title when it's honestly the user's title or work (from `info.json`), else delete it.
+- Dates as `Mon YYYY -- Present`, from `info.json`. Ask the user when a month is missing.
+
+## Getting through the ATS
+
+ATS rank and search; recruiters search by job title and exact terms. So:
+
+- `keywords.txt`: your honest judgment of every must-have in the job (tools, skills, title, years, degree), one per line, in the job's exact wording:
+  - `match: <term> -- <info.json fact>`: `info.json` shows it, even under another name (they say "message queues", you did RabbitMQ).
+  - `partial: <term> -- <what's close>`: related but not the same (they want AWS, you have GCP).
+  - `gap: <term>`: nothing in `info.json`.
+  `check.sh` turns this into the FIT score (partial = half) and fails if a matched term's exact wording is missing from the PDF text (terms with numbers, like "5+ years", are judged from the dates instead). Judge by meaning, not spelling, and be strict: when in doubt it's partial. Nice-to-haves don't go in.
+- Put each matched term in a bullet where it was used, not only in Skills.
+- Acronyms: write both forms once, like the job does ("Continuous Integration (CI)").
+- Keep the standard headings (Experience, Skills, Education, Personal Projects), single column, no tables, icons, or images.
+- Never hide text (white text, tiny fonts, instructions to AI screeners). Parsers show it to the recruiter.
 
 ## Voice (this is what avoids AI slop)
 
@@ -45,4 +61,8 @@ Short lists, direct instructions:
 3. **Likely questions**: technical + behavioral, specific to this company/role.
 4. **Stories to prepare**: 3–4 from `info.json`, each as situation → action → result.
 5. **Prep checklist**: coding / system design / behavioral, only what this role tests.
-6. **"As a hiring manager, here's what would make me more likely to invite you for an interview:"** what to change, cut, or expand, and what the resume signals.
+6. **Getting seen**:
+   - When the job was posted, if the page says. Apply within the first few days; later applications get less attention.
+   - Referral: the kind of person to ask at the company (team, role) and a 3-4 sentence message to them, built only from `info.json` facts.
+   - LinkedIn: a headline that matches this role's title and keywords, only if honest. Recruiters search headlines and current titles.
+7. **"As a hiring manager, here's what would make me more likely to invite you for an interview:"** what to change, cut, or expand, and what the resume signals.

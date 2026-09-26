@@ -1,0 +1,6 @@
+match: Backend Engineer
+match: Go
+match: PostgreSQL
+match: message queue -- RabbitMQ worker at Acme
+match: on-call
+partial: payments -- idempotent payment endpoint, not a full payments system
