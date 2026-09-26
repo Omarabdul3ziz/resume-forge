@@ -1,0 +1,32 @@
+\documentclass[11pt,a4paper,sans]{moderncv}
+
+\moderncvstyle{casual}
+\moderncvcolor{blue}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[scale=0.8]{geometry}
+\renewcommand{\familydefault}{\sfdefault}
+
+\name{Jane}{Doe}
+\email{jane@example.com}
+\phone[mobile]{+10000000000}
+\homepage{janedoe.dev}
+
+\begin{document}
+
+\recipient{Initech}{}
+\date{\today}
+\opening{Dear Hiring Team,}
+\closing{Best regards,}
+\makelettertitle
+
+I'm applying for the Backend Engineer role on your payments team. Most of my last three years went into exactly this kind of work: a Go and PostgreSQL API that takes money, and the on-call that comes with it.
+
+At Acme, checkout lookups were slow enough that customers retried, and retries on the payment endpoint could charge twice. I fixed the slow path with covering indexes and a Redis cache, then added idempotency keys so a retry is always safe. The second part mattered more.
+
+In my first months I'd want to learn your payment flows end to end, join the on-call rotation early, and look at where retries and queues can fail quietly. I'd be glad to talk.
+
+\makeletterclosing
+
+\end{document}

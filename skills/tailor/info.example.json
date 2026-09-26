@@ -1,0 +1,74 @@
+{
+	"_rules": "Facts only. Any number goes in `metric`, never in `text`. A metric is usable only when `evidence` says where it can be verified (PR, dashboard, release page). Empty evidence = the metric is blocked by check.sh.",
+	"profile": {
+		"name": "Jane Doe",
+		"title": "backend engineer",
+		"phone": "+10000000000",
+		"email": "jane@example.com",
+		"linkedin": "janedoe",
+		"github": "janedoe",
+		"website": "janedoe.dev",
+		"years_experience": 4,
+		"summary": ["Backend engineer focused on APIs and databases"]
+	},
+	"experience": [
+		{
+			"name": "Acme",
+			"title": "backend engineer",
+			"date": "2022-present",
+			"location": "Berlin, Germany",
+			"projects": [
+				{
+					"name": "Orders API",
+					"tagline": "public API behind the checkout flow",
+					"technologies": ["go", "postgresql", "redis"],
+					"contributions": [
+						{ "text": "Rewrote the order lookup queries with covering indexes and a Redis read-through cache", "metric": "p95 latency from 800ms to 120ms", "evidence": "https://github.com/acme/orders/pull/123" },
+						{ "text": "Added idempotency keys to the payment endpoint so client retries can't double-charge" },
+						{ "text": "Owned releases and on-call for the service", "metric": "40+ releases", "evidence": "https://github.com/acme/orders/releases" }
+					]
+				},
+				{
+					"name": "Billing Worker",
+					"tagline": "async invoice generation",
+					"technologies": ["go", "rabbitmq", "postgresql"],
+					"contributions": [
+						{ "text": "Moved invoice generation off the request path into a RabbitMQ worker with retries and a dead-letter queue" },
+						{ "text": "Added Prometheus metrics and alerts on queue depth and failure rate, and wrote the runbook for on-call" }
+					]
+				}
+			]
+		},
+		{
+			"name": "Globex",
+			"title": "junior developer",
+			"date": "2021-2022",
+			"location": "Berlin, Germany",
+			"projects": [
+				{
+					"name": "Internal Tools",
+					"technologies": ["python", "django"],
+					"contributions": [
+						{ "text": "Built a Django admin tool that replaced a shared spreadsheet for tracking customer refunds" }
+					]
+				}
+			]
+		}
+	],
+	"skills": {
+		"languages": ["go (primary)", "sql", "python (basic)"],
+		"databases": ["postgresql", "redis"],
+		"cloud": ["docker", "kubernetes"]
+	},
+	"projects": [
+		{
+			"name": "tinykv",
+			"link": "https://github.com/janedoe/tinykv",
+			"technologies": ["go", "raft"],
+			"description": "Toy distributed key-value store built to learn Raft"
+		}
+	],
+	"education": [
+		{ "degree": "B.Sc. Computer Science", "school": "Example University", "date": "2017-2021" }
+	]
+}

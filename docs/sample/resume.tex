@@ -1,0 +1,45 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage[empty]{fullpage}
+\usepackage{styles}
+
+\begin{document}
+
+\header{Jane Doe}{+10000000000}{jane@example.com}{janedoe}{janedoe}{janedoe.dev}
+
+\section{Experience}
+
+\role{Backend Engineer --- Acme}{Berlin, Germany \textbar{} 2022 --- Present}{
+
+    \project{Orders API --- public API behind the checkout flow}{Go, PostgreSQL, Redis}{
+      \item Cut p95 latency from 800ms to 120ms by rewriting order lookups with covering indexes and a Redis read-through cache
+      \item Added idempotency keys to the payment endpoint so client retries can't double-charge
+      \item Owned releases and on-call for the service, 40+ releases so far
+    }
+
+    \project{Billing Worker --- async invoice generation}{Go, RabbitMQ, PostgreSQL}{
+      \item Moved invoice generation off the request path into a RabbitMQ worker with retries and a dead-letter queue
+      \item Added Prometheus alerts on queue depth and failure rate, and wrote the on-call runbook
+    }
+}
+
+\role{Junior Developer --- Globex}{Berlin, Germany \textbar{} 2021 --- 2022}{
+
+    \project{Internal Tools}{Python, Django}{
+      \item Built a Django admin tool that replaced a shared spreadsheet for tracking customer refunds
+    }
+}
+
+\section{Skills}
+\skill{Languages}{Go (primary), SQL, Python (basic)}
+\skill{Data \& Infra}{PostgreSQL, Redis, RabbitMQ, Docker, Kubernetes, Prometheus}
+
+\section{Personal Projects}
+\sideproject{tinykv}{Go, Raft}{
+    \item Toy distributed key-value store built to learn Raft
+}
+
+\section{Education}
+\role{B.Sc. Computer Science --- Example University}{2017 --- 2021}{}
+
+\end{document}

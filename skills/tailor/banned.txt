@@ -1,0 +1,51 @@
+# one word/phrase per line, matched case-insensitive as whole words in bullets and cover letter
+leverage
+leveraged
+leveraging
+spearhead
+spearheaded
+robust
+seamless
+seamlessly
+cutting-edge
+state-of-the-art
+passionate
+enthusiast
+excited
+thrilled
+eager
+synergy
+dynamic
+innovative
+world-class
+best-in-class
+game-changer
+delve
+tapestry
+testament
+utilize
+utilized
+facilitate
+facilitated
+enabling
+ensuring
+empowering
+showcasing
+a class of
+highly
+strongly
+greatly
+various
+cross-functional
+fast-paced
+results-driven
+detail-oriented
+team player
+proven track record
+I am writing to
+I believe
+Furthermore
+Moreover
+Additionally
+In today's
+not only

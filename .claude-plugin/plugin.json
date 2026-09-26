@@ -1,0 +1,6 @@
+{
+  "name": "resume-forge",
+  "version": "0.1.0",
+  "description": "Honest, job-tailored resumes and cover letters in LaTeX, checked against your own verified facts",
+  "author": { "name": "Omar Abdulaziz" }
+}

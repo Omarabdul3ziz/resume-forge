@@ -1,0 +1,7 @@
+{
+  "name": "resume-forge",
+  "owner": { "name": "Omar Abdulaziz" },
+  "plugins": [
+    { "name": "resume-forge", "source": "./", "description": "Honest, job-tailored resumes and cover letters in LaTeX" }
+  ]
+}
