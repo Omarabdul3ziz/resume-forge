@@ -2,6 +2,6 @@
   "name": "resume-forge",
   "owner": { "name": "Omar Abdulaziz" },
   "plugins": [
-    { "name": "resume-forge", "source": "./", "description": "Honest, job-tailored resumes and cover letters in LaTeX" }
+    { "name": "resume-forge", "source": "./", "description": "Job-tailored resumes and cover letters that pass ATS filters, with every claim backed by evidence" }
   ]
 }

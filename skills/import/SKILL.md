@@ -1,7 +1,7 @@
 ---
 name: import
 description: resume-forge. Build or update info.json from an existing resume (PDF, .tex, text), a LinkedIn export, or GitHub. Use when the user runs /import or wants to set up or refresh their resume data.
-argument-hint: <resume.pdf | file | github-username> ...
+argument-hint: [resume.pdf | file | linkedin.zip | github-username] ...
 allowed-tools: Bash(pdftotext *) Bash(gh *) Bash(jq *) Bash(mkdir *) Bash(unzip *)
 ---
 
@@ -9,11 +9,11 @@ Import resume data from: $ARGUMENTS
 
 Data folder: `$RESUME_FORGE_HOME` if set, else `~/resume-forge-data`. The target is `<data>/info.json`, in the format of `${CLAUDE_SKILL_DIR}/../tailor/info.example.json`.
 
-If the data folder doesn't exist, suggest keeping it as a private repo: `gh repo create resume-forge-data --private --clone` (run in `~`), or just `mkdir -p ~/resume-forge-data/applications`. Then continue.
+If the data folder doesn't exist, create it (`mkdir -p <data>/applications`) and continue. At the end, add one tip: keep it as a private git repo for backup (`cd <data> && git init`, or `gh repo create resume-forge-data --private`).
 
 ## Steps
 
-1. **Read the sources.** PDF → `pdftotext -layout <file> -`. `.tex`/text → read it. A LinkedIn data export (`.zip`) → `unzip -o <zip> -d <tmp>` and read `Profile.csv`, `Positions.csv`, `Education.csv`, `Skills.csv`. A GitHub username → `gh` (see step 5). Several sources can be combined.
+1. **Read the sources.** No argument → ask for their resume (PDF path or pasted text) and, optionally, their GitHub username. PDF → `pdftotext -layout <file> -`. `.tex`/text → read it. A LinkedIn data export (`.zip`) → `unzip -o <zip> -d <tmp>` and read `Profile.csv`, `Positions.csv`, `Education.csv`, `Skills.csv`. A GitHub username → `gh` (see step 5). Several sources can be combined.
 2. **Merge, don't overwrite.** If `info.json` exists, add only what's new. When a source contradicts `info.json` (different dates, numbers, titles), don't pick one yourself. List every conflict and ask the user.
 3. **Dates and location.** Every job and degree needs `Mon YYYY - Mon YYYY` (or `- present`), and `profile.location` needs a city and country: ATS parsers use them to compute experience and filter by location. Ask the user for any that are missing.
 4. **Split facts from numbers.** Write each contribution as plain `text` with no digits. Any number (%, x, counts, time saved) goes in `metric`, with `evidence` left empty. Keep the user's wording. Don't polish it or add scope.

@@ -1,8 +1,8 @@
 ---
 name: tailor
 description: resume-forge. Generate a job-tailored resume, cover letter, review, and interview prep from a job description. Use when the user runs /tailor, asks to tailor a resume or apply for a job, or gives feedback on an application it made.
-argument-hint: <job url | file path | pasted job description> | master <role> | <application folder> <feedback>
-allowed-tools: Bash(${CLAUDE_SKILL_DIR}/check.sh *) Bash(rm -f *.aux *.log *.out) Bash(tectonic *) Bash(pdftotext *) Bash(pdfinfo *) Bash(cp *) Bash(mkdir *)
+argument-hint: [job url | file path | pasted job description> | master <role> | <application folder> <feedback>]
+allowed-tools: Bash(command -v *) Bash(${CLAUDE_SKILL_DIR}/check.sh *) Bash(rm -f *.aux *.log *.out) Bash(tectonic *) Bash(pdftotext *) Bash(pdfinfo *) Bash(cp *) Bash(mkdir *)
 ---
 
 Tailor an application for: $ARGUMENTS
@@ -26,8 +26,10 @@ $D/applications/<YYYY-MM-DD>-<company-slug>/
 
 ## Steps
 
-0. **No `$D/info.json`?** Stop and tell the user to run the `import` skill first (`/resume-forge:import <resume.pdf>`).
-1. **Get the job description.** URL → WebFetch it. File → read it. Pasted text → use it. If the fetch is blocked or the text looks incomplete (LinkedIn often is), ask the user to paste it. Don't guess.
+0. **Setup, only when needed:**
+   - Run `command -v tectonic pdftotext pdfinfo jq`. If any is missing, stop and give the one install command for the user's OS: Arch `sudo pacman -S tectonic poppler jq`, macOS `brew install tectonic poppler jq`, Debian/Ubuntu `sudo apt install poppler-utils jq` plus `curl -fsSL https://drop-sh.fullyjustified.net | sh` for tectonic.
+   - No `$D/info.json`? Don't stop. Ask for their current resume (a PDF path or pasted text) and, optionally, their GitHub username, then follow `$S/../import/SKILL.md` to build it. Continue with the job after.
+1. **Get the job description.** No argument → ask "Paste the job link or description." URL → WebFetch it. File → read it. Pasted text → use it. If the fetch is blocked or the text looks incomplete (LinkedIn often is), ask the user to paste it. Don't guess.
 2. **Create the folder.** Slug = company name lowercased, hyphens (`acme-corp`), date = today. If a folder for the same company exists, ask whether to overwrite it or make a new one. Write the description to `job.md` with the company, role, and URL at the top. Copy `$S/templates/styles.sty` into the folder.
 3. **Read the inputs:** `$S/rules.md` (follow it strictly), `info.json`, `$S/templates/resume.tex`, `$S/templates/cover.tex`. Fill the template placeholders (NAME, PHONE, ...) from `info.json` `profile`.
 4. **Map before writing.** Judge each of the job's must-haves against `info.json` and write `keywords.txt` (see rules.md).
@@ -36,7 +38,14 @@ $D/applications/<YYYY-MM-DD>-<company-slug>/
 7. **Review.** Spawn the `hiring-manager` agent (`resume-forge:hiring-manager` when installed as a plugin) with the folder path. It writes `review.md`. Apply its fixes when they're backed by `info.json`, then rebuild and re-check. Ignore suggestions that need facts the user doesn't have. Those go in `advices.md` as gaps.
 8. **Write `advices.md`** following `rules.md`.
 9. **Clean up** with `rm -f <folder>/*.aux <folder>/*.log <folder>/*.out`, then `cp resume.pdf <First>-<Last>-Resume-<Company>.pdf` (recruiters see the uploaded file name) and `pdftotext -layout resume.pdf resume.txt`.
-10. **Report** in a few lines: folder path, page count, check status, the `FIT` score and partials/gaps from `check.sh`, the reviewer's verdict, top 3 gaps, and any `info.json` metrics you left out because they had no evidence. Filling in that evidence would make the resume stronger.
+10. **Report**, short, most useful first:
+    ```
+    Ready: <path to the upload copy>  (+ cover.pdf)
+    FIT: <score line from check.sh>
+    Reviewer: <one-line verdict>
+    Top gaps: <up to 3>  → answers in advices.md
+    ```
+    Then, only if relevant: page count, remaining WARNs, and `info.json` metrics left out for missing evidence (adding it would make the resume stronger). End with: "Want changes? Just tell me (e.g. \"make it one page\")."
 
 ## Master resume
 

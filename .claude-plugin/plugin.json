@@ -1,6 +1,6 @@
 {
   "name": "resume-forge",
   "version": "0.1.0",
-  "description": "Honest, job-tailored resumes and cover letters in LaTeX, checked against your own verified facts",
+  "description": "Paste a job link, get a tailored resume, cover letter, fit score, and interview prep. ATS-ready, no AI buzzwords, every number backed by evidence.",
   "author": { "name": "Omar Abdulaziz" }
 }

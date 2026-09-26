@@ -1,68 +1,71 @@
 # resume-forge
 
-A Claude Code plugin that writes a job-tailored resume and cover letter in LaTeX, using only facts you've verified.
+**Tailored resumes that can't lie.**
 
-- Every number on the resume must come from your `info.json` with a link to evidence (a PR, a release page, a dashboard). `check.sh` blocks the build otherwise.
-- `check.sh` also blocks banned AI words, em-dashes in bullets, bullets over 2 lines, and resumes over 2 pages.
-- ATS-readable: `check.sh` reads the PDF the way a parser does and fails if your contact info, the standard headings, or the job's wording for a must-have you have is missing.
-- Plain bullets: no "responsible for", no "I", past-tense verbs.
-- A separate "hiring manager" agent reviews the PDF against the job description, seeing only what a real reviewer would see.
+Paste a job link. Get a resume and cover letter written for that job, a fit score, a hiring manager's review, and interview prep. Everything comes from facts you've verified, and nothing is made up.
 
-It's a resume tailor, nothing more. It is not a job tracker and it never applies for you: you read what it wrote and you send it.
+Most AI resumes read the same: inflated, full of buzzwords, and easy to spot. Recruiters skim past them and ATS filters drop them. resume-forge writes like an engineer talking to a peer, and it won't build a resume that breaks its rules.
 
 ![sample resume](docs/resume.png)
 
-A full sample application for a fake candidate is in [docs/sample](docs/sample). Check it with `INFO=skills/tailor/info.example.json skills/tailor/check.sh docs/sample`.
+```
+Ready: ~/resume-forge-data/applications/2026-09-26-acme/Jane-Doe-Resume-Acme.pdf  (+ cover.pdf)
+FIT: 79% (8 match, 2 partial, 2 gap of 12 must-haves)
+Reviewer: would interview. Lead with the payments work.
+Top gaps: Kubernetes, AWS  → answers in advices.md
+```
 
-## Install
+## Why it's different
 
-Requires [Claude Code](https://claude.com/claude-code), `tectonic`, `poppler` (pdftotext/pdfinfo), and `jq`.
+- **Every number has proof.** "Cut latency 85%" only goes on the resume if you've linked a PR, dashboard, or release that shows it. Otherwise it's blocked.
+- **Built to pass ATS filters.** It reads the finished PDF the way an ATS parser does. It checks for your contact info, the standard headings, and the job's exact wording for each skill you really have.
+- **No AI slop.** Buzzwords like "spearheaded" and "leveraged" are banned, along with em-dashes in bullets and bloated bullets. Resumes stay at 2 pages or less.
+- **A second opinion before you send.** A skeptical "hiring manager" agent reviews each application against the job and flags anything weak.
+- **Honest gaps, not hidden ones.** Requirements you don't meet aren't covered up. You get honest answers to prepare for the interview instead.
+
+## Quickstart
+
+You need [Claude Code](https://claude.com/claude-code). Inside Claude Code, run:
 
 ```
 /plugin marketplace add Omarabdul3ziz/resume-forge
 /plugin install resume-forge@resume-forge
 ```
 
-## Use
+Then:
 
 ```
-/resume-forge:import ~/resume.pdf your-github-username   # once: builds info.json, finds evidence on GitHub
-/resume-forge:tailor https://company.com/jobs/123         # per job
-/resume-forge:tailor master backend engineer              # a general resume for a role, no job needed
+/resume-forge:tailor https://company.com/jobs/123
 ```
 
-The report ends with a fit score, like `FIT: 79% (8 match, 2 partial, 2 gap of 12 must-haves)`. The AI judges each must-have by meaning against your `info.json` (RabbitMQ counts for "message queues"; GCP is only partial for AWS) and writes its reasoning in `keywords.txt`, so you can check it.
+The first run asks for your current resume and sets everything up. If a tool like `tectonic`, `poppler`, or `jq` is missing, it gives you the one-line install command for your OS.
 
-Not happy with it? Keep talking in the same session ("make it one page", "lead with the payments work") and it revises the same folder. Later, `/resume-forge:tailor ~/resume-forge-data/applications/2026-09-26-acme make it one page`.
+Want changes? Just say so in the same chat: *"make it one page"*, *"lead with the payments work"*.
 
-Your data stays out of the plugin, in `~/resume-forge-data/` (or `$RESUME_FORGE_HOME`). Keep it as a **private** repo so `info.json` and everything you sent are versioned and backed up:
+## What you get for each job
 
-```
-gh repo create resume-forge-data --private --clone   # run in ~
-```
+| File | What it's for |
+|---|---|
+| `Jane-Doe-Resume-Acme.pdf` | The resume to upload, with a name recruiters recognize |
+| `cover.pdf` | A 3-paragraph cover letter with no flattery |
+| `keywords.txt` | Each must-have in the job, judged match, partial, or gap, with the reasoning |
+| `review.md` | The hiring manager's verdict |
+| `advices.md` | How to answer your gaps, likely questions, and stories to prepare |
+| `resume.txt` | Plain text for Workday-style forms that make you re-type everything |
 
-```
-~/resume-forge-data/
-  info.json                      your facts + evidence
-  applications/2026-09-26-acme/  job.md  keywords.txt  resume.tex/pdf  cover.tex/pdf  review.md  advices.md
-                                 Jane-Doe-Resume-Acme.pdf (the copy you upload)  resume.txt (for re-type forms)
-  master/backend-engineer/       the general resume for that role
-```
+No job yet? `/resume-forge:tailor master backend engineer` makes a general resume for a role, for job fairs, referrals, and recruiters who reach out first.
 
-`advices.md` has honest answers for your gaps, likely interview questions, and stories to prepare.
+## FAQ
 
-## Layout
+**Does it apply for me?** No. It writes, you read, you send.
 
-```
-skills/tailor/      SKILL.md, rules.md, banned.txt, check.sh, templates/, info.example.json
-skills/import/      SKILL.md
-agents/             hiring-manager.md
-.claude-plugin/     plugin manifest
-```
+**Where does my data go?** It stays on your machine in `~/resume-forge-data/`. The plugin never stores it.
 
-Edit `rules.md` and `banned.txt` to change the writing rules, or `templates/` to change the look.
+**Can I change the look or the writing rules?** Yes. See the [manual](docs/MANUAL.md#customize).
 
-Develop locally with `claude --plugin-dir .`. Inside this repo `/tailor` and `/import` also work directly through the `.claude/` symlinks.
+**What does a finished application look like?** There's a full sample for a fake candidate in [docs/sample](docs/sample).
+
+📖 **[Read the manual](docs/MANUAL.md)** for every command, how evidence works, and troubleshooting.
 
 ## License
 
