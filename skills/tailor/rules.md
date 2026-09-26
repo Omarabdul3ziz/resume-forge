@@ -14,7 +14,8 @@ The reader is a hiring manager skimming 300 resumes, then a technical interviewe
 
 - Max 2 pages. Page 2 must be worth reading, or cut to 1.
 - Order jobs newest first. Inside a job, the project most relevant to this job goes first.
-- Max 4 bullets per project, max 2 lines (~230 chars) per bullet. Drop projects that don't help this application.
+- Max 4 bullets per project, max 2 lines (~230 chars) per bullet. Drop projects that don't help this application, but every job keeps at least one project: never drop a job.
+- A job with `via` (contractor or agency work for a client) renders as `\role{<Title> at <name>}{via <via> \textbar{} City, Country \textbar{} Mon YYYY -- Present}`.
 - Bullets start with a past-tense verb, even for the current job ("Built", not "Building" or "I built"). No "responsible for", "worked on", "helped with": say what you did.
 - Bullet = what you built + the concrete mechanism (tool, technique) + the result if a real one exists. Don't bolt a vague result on the end ("..., improving reliability").
 - Mirror the job's wording where it's honestly the same thing (they say "observability", you did Prometheus/Grafana: use their word).
@@ -35,6 +36,7 @@ ATS rank and search; recruiters search by job title and exact terms. So:
 - Acronyms: write both forms once, like the job does ("Continuous Integration (CI)").
 - Keep the standard headings (Experience, Skills, Education, Personal Projects), single column, no tables, icons, or images.
 - Never hide text (white text, tiny fonts, instructions to AI screeners). Parsers show it to the recruiter.
+- Workday, Taleo, iCIMS, and SuccessFactors make you re-type the resume into form fields: `resume.txt` is for that.
 
 ## Voice (this is what avoids AI slop)
 
@@ -54,15 +56,8 @@ ATS rank and search; recruiters search by job title and exact terms. So:
 
 ## advices.md
 
-Short lists, direct instructions:
+Short lists, direct instructions. Coverage is already in `keywords.txt`; don't repeat it.
 
-1. **Coverage**: table of each job requirement → matching bullet, or `GAP`.
-2. **Gaps**: how to answer honestly in an interview, and what to do about them.
-3. **Likely questions**: technical + behavioral, specific to this company/role.
-4. **Stories to prepare**: 3–4 from `info.json`, each as situation → action → result.
-5. **Prep checklist**: coding / system design / behavioral, only what this role tests.
-6. **Getting seen**:
-   - When the job was posted, if the page says. Apply within the first few days; later applications get less attention.
-   - Referral: the kind of person to ask at the company (team, role) and a 3-4 sentence message to them, built only from `info.json` facts.
-   - LinkedIn: a headline that matches this role's title and keywords, only if honest. Recruiters search headlines and current titles.
-7. **"As a hiring manager, here's what would make me more likely to invite you for an interview:"** what to change, cut, or expand, and what the resume signals.
+1. **Gaps**: how to answer each one honestly in an interview, and what to do about it.
+2. **Likely questions**: technical + behavioral, specific to this company/role.
+3. **Stories to prepare**: 3–4 from `info.json`, each as situation → action → result.

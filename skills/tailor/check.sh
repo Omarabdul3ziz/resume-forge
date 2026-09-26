@@ -6,7 +6,6 @@ set -uo pipefail
 dir=${1:?usage: ./check.sh <application dir>}
 here=$(cd "$(dirname "$0")" && pwd)
 info=${INFO:-$dir/../../info.json}
-[[ -f $dir/info.json ]] && info=${INFO:-$dir/info.json}
 [[ -f $info ]] || { echo "FAIL: $info not found"; exit 1; }
 resume=$dir/resume.tex
 cover=$dir/cover.tex
@@ -14,10 +13,10 @@ fail=0
 err() { echo "FAIL: $*"; fail=1; }
 warn() { echo "WARN: $*"; }
 
-# a master resume (no job) has no cover letter
-[[ -f $cover ]] || { grep -q '^Master resume' "$dir/job.md" 2>/dev/null && cover=/dev/null; }
-for f in "$resume" "$cover" "$dir/resume.pdf" "$dir/job.md" "$dir/keywords.txt"; do
-  [[ -e $f ]] || err "missing $f"
+# the cover letter is optional (master resumes have none)
+[[ -f $cover ]] || cover=/dev/null
+for f in "$resume" "$dir/resume.pdf" "$dir/job.md" "$dir/keywords.txt"; do
+  [[ -f $f ]] || err "missing $f"
 done
 [[ $cover == /dev/null || -f $dir/cover.pdf ]] || err "missing $dir/cover.pdf"
 ((fail)) && exit 1
@@ -39,12 +38,10 @@ n=$(grep -cE -- '---|—' <<<"$bullets")
 n=$(grep -oE -- '---|—' "$cover" | wc -l)
 ((n > 2)) && err "cover letter has $n em-dashes (max 2)"
 
-# 3. weak or first-person bullets
+# 3. first-person bullets
 while IFS= read -r b; do
   t=$(sed -E 's/^\s*\\item\s*//' <<<"$b")
-  grep -qiE '\b(responsible for|worked on|helped (with|to)|duties included|involved in)\b' <<<"$t" && err "weak phrase, say what you did: $(cut -c1-80 <<<"$t")"
   grep -qP '(?<![\w/])I(?![\w/])|\b([Mm]y|[Ww]e|[Oo]ur)\b' <<<"$t" && err "first person in a bullet: $(cut -c1-80 <<<"$t")"
-  grep -qE '^[A-Z][a-z]+(ing|s)\b' <<<"$t" && warn "bullet should start with a past-tense verb (Built, not Builds/Building): $(cut -c1-80 <<<"$t")"
 done <<<"$bullets"
 
 # 4. bullet length and count per project

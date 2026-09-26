@@ -12,7 +12,7 @@ It's a resume tailor, nothing more. It is not a job tracker and it never applies
 
 ![sample resume](docs/resume.png)
 
-A full sample application for a fake candidate is in [docs/sample](docs/sample). Check it with `skills/tailor/check.sh docs/sample`.
+A full sample application for a fake candidate is in [docs/sample](docs/sample). Check it with `INFO=skills/tailor/info.example.json skills/tailor/check.sh docs/sample`.
 
 ## Install
 
@@ -31,7 +31,7 @@ Requires [Claude Code](https://claude.com/claude-code), `tectonic`, `poppler` (p
 /resume-forge:tailor master backend engineer              # a general resume for a role, no job needed
 ```
 
-The report ends with a fit score, like `FIT: 79% (8 match, 2 partial, 2 gap of 12 must-haves)`. The AI judges each must-have by meaning against your `info.json` (RabbitMQ counts for "message queues"; GCP is only partial for AWS) and writes its reasoning in `keywords.txt`, so you can check it. It also tells you which ATS the job uses (Workday, Greenhouse, Lever, ...) and what that means for the application ([ats.md](skills/tailor/ats.md)).
+The report ends with a fit score, like `FIT: 79% (8 match, 2 partial, 2 gap of 12 must-haves)`. The AI judges each must-have by meaning against your `info.json` (RabbitMQ counts for "message queues"; GCP is only partial for AWS) and writes its reasoning in `keywords.txt`, so you can check it.
 
 Not happy with it? Keep talking in the same session ("make it one page", "lead with the payments work") and it revises the same folder. Later, `/resume-forge:tailor ~/resume-forge-data/applications/2026-09-26-acme make it one page`.
 
@@ -49,12 +49,12 @@ gh repo create resume-forge-data --private --clone   # run in ~
   master/backend-engineer/       the general resume for that role
 ```
 
-`advices.md` has requirement coverage, honest answers for your gaps, likely questions, a prep checklist, and how to get seen (apply early, a referral message, your LinkedIn headline).
+`advices.md` has honest answers for your gaps, likely interview questions, and stories to prepare.
 
 ## Layout
 
 ```
-skills/tailor/      SKILL.md, rules.md, ats.md, banned.txt, check.sh, templates/, info.example.json
+skills/tailor/      SKILL.md, rules.md, banned.txt, check.sh, templates/, info.example.json
 skills/import/      SKILL.md
 agents/             hiring-manager.md
 .claude-plugin/     plugin manifest

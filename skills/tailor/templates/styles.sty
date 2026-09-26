@@ -1,20 +1,19 @@
 \ProvidesPackage{styles}
 
-\usepackage[a4paper,margin=1.5cm]{geometry} % Set margins for all sides
+\usepackage[a4paper,margin=1.5cm]{geometry}
 \usepackage[english]{babel}
-\usepackage{enumitem} % For list customization
-\usepackage[hidelinks]{hyperref} % For links without colored boxes
-\usepackage{titlesec} % For customizing section headers
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
 
-\raggedbottom % Prevents stretching of vertical space on the page
+\raggedbottom
 \raggedright
 \hyphenpenalty=10000 \exhyphenpenalty=10000 % No hyphenated words: ATS keyword matching breaks on "Kuber-netes"
 
-% Section Header Formatting (Line separated, Large/Small Caps)
 \titleformat{\section}{\scshape\Large\raggedright}{}{0pt}{}[\titlerule]
 \titlespacing*{\section}{0pt}{12pt}{10pt}
 
-% 1. Header: Contact Information, all as plain text so ATS parsers can read it
+% Contact info as plain text so ATS parsers can read it
 % Usage: \header{Name}{Location}{Phone}{Email}{LinkedIn Handle}{GitHub Handle}{Website Domain}
 \newcommand{\header}[7]{%
 \begin{center}
@@ -25,37 +24,34 @@
 \end{center}
 }
 
-% Optional one-line headline under the header, e.g. the target job title
+% Optional one line under the header, e.g. the target job title
 \newcommand{\headline}[1]{\begin{center}\vspace{-6pt}\large #1\end{center}}
 
-% 2. Experience Role Entry
-% Usage: \role{Postion - Company}{Location and Date}{Block of Bullet Points/Projects}
+% Usage: \role{Position --- Company}{Location | Date}{projects}
 \newcommand{\role}[3]{%
-    \par\noindent % Start no paragraph un indented
-    {\large \textbf{#1}} \hfill \textit{#2} % Title/Company left, Date/Location right
-    \begin{itemize}[leftmargin=0.25in, label={}] % Empty label for no decoration, indenting the whole block
-        \item #3 
+    \par\noindent
+    {\large \textbf{#1}} \hfill \textit{#2}
+    \begin{itemize}[leftmargin=0.25in, label={}]
+        \item #3
     \end{itemize}
-    % \vspace{4pt} % Use \vspace for a small break if needed, but \par should suffice
 }
 
-% 3. Project/Description Block
-% Usage: \project{Name}{Tech Stack}{Item List (use \item)}
+% Usage: \project{Name}{Tech Stack}{\item ...}
 \newcommand{\project}[3]{%
-    {\textit{#1} \hfill \textit{#2}} % Project Name left, Tech Stack right
+    {\textit{#1} \hfill \textit{#2}}
     \begin{itemize}[leftmargin=0.3in, itemsep=2pt, parsep=0pt, label=\textbullet]
         #3
     \end{itemize}
 }
 
-% 4. Skills Block
 % Usage: \skill{Category}{Comma-separated list of skills}
 \newcommand{\skill}[2]{%
     \par\noindent
     \textbf{#1}: \textit{#2}%
-    \par\vspace{2pt} % adds vertical space after each skill
+    \par\vspace{2pt}
 }
 
+% Usage: \sideproject{Name}{Tech Stack}{\item ...}
 \newcommand{\sideproject}[3]{%
     \noindent
     {\textbf{#1} \hfill \textit{#2}}%
